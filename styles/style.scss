@@ -1,4 +1,4 @@
-$blue: #01abfe;
+$blue: rgb(16 171 249);
 $yellow: #FFFD46;
 @font-face {
     font-family: 'RM Typerighter';
@@ -24,6 +24,7 @@ section {
     // height: 200px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 15px;
     .content {
         padding-left: 15px;
         padding-right: 15px;
@@ -47,6 +48,7 @@ p {
 
 .bold {
     font-weight: 800;
+    letter-spacing: 1px;
 }
 
 .button {
@@ -57,7 +59,8 @@ p {
     font-size: 50px;
     line-height: 30px;
     padding-top: 15px;
-    font-weight: 400;
+    // font-weight: 600;
+    letter-spacing: 2px;
 }
 
 a {

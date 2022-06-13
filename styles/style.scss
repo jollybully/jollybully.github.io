@@ -1,11 +1,19 @@
 $blue: #01abfe;
 $yellow: #FFFD46;
+@font-face {
+    font-family: 'RM Typerighter';
+    src: url('../fonts/RM-Typerighter-medium.woff2') format('woff2'), url('../fonts/RM-Typerighter-medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
     background-color: $blue;
     color: $yellow;
     margin-left: 15px;
     margin-right: 15px;
-    font-family: 'Special Elite', cursive;
+    font-family: 'RM Typerighter', serif;
     margin-bottom: 30px;
 }
 
@@ -27,9 +35,14 @@ section {
 }
 
 p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     line-height: 20px;
-    letter-spacing: .25px;
+    letter-spacing: .2px;
+    font-size: 32px;
+}
+
+.emoji {
+    font-size: 20px;
 }
 
 .bold {
@@ -41,9 +54,10 @@ p {
     background-color: $yellow;
     color: $blue;
     padding: 15px;
-    font-size: 30px;
+    font-size: 50px;
     line-height: 30px;
-    padding-top: 20px;
+    padding-top: 15px;
+    font-weight: 400;
 }
 
 a {

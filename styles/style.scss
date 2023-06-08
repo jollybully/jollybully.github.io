@@ -1,5 +1,6 @@
 $blue: rgb(16 171 249);
 $yellow: #FFFD46;
+
 @font-face {
     font-family: 'Open Sans';
     src: url('../fonts/RM-Typerighter-medium.woff2') format('woff2'), url('../fonts/RM-Typerighter-medium.woff') format('woff');
@@ -10,7 +11,7 @@ $yellow: #FFFD46;
 
 body {
     background-color: $blue;
-    color: $yellow;
+    color: $yellow !important;
     margin-left: 15px;
     margin-right: 15px;
     font-family: 'Open Sans', serif;
@@ -25,10 +26,12 @@ section {
     margin-left: auto;
     margin-right: auto;
     margin-top: 15px;
+
     .content {
         padding-left: 15px;
         padding-right: 15px;
     }
+
     video {
         width: 100%;
         height: auto;
@@ -40,6 +43,19 @@ p {
     line-height: 20px;
     letter-spacing: .2px;
     font-size: 32px;
+    color: $yellow !important;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+a {
+    text-decoration: underline;
+    line-height: 20px;
+    letter-spacing: .2px;
+    font-size: 32px;
+    color: $yellow !important;
 }
 
 .emoji {
@@ -72,8 +88,13 @@ a {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     img {
         max-width: 200px;
         ;
     }
+}
+
+#tourDates a {
+    display: block;
 }

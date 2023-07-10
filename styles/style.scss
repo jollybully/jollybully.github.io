@@ -88,13 +88,36 @@ a {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 90%;
 
     img {
         max-width: 200px;
-        ;
     }
 }
 
 #tourDates a {
     display: block;
 }
+
+
+.fade-in {
+    opacity: 0;
+    -webkit-animation: fadeIn 2s forwards;
+    animation: fadeIn 2s forwards;
+}
+
+@-webkit-keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+// * {
+//     transition: all 0.5s ease-out;
+// }

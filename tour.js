@@ -28,7 +28,7 @@ async function displayData() {
 	// Parse the CSV data into an array of objects using Papa Parse
 	const data = Papa.parse(csvData, { header: true }).data;
 	// Log the data for debugging
-	console.log(data);
+	// console.log(data);
 
 	const futureDates = data.filter(item => new Date(item.startDate) >= now);
 	// Display the data on your page. This example assumes you have a <div> element with id 'tourDates' in your HTML

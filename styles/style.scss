@@ -9,6 +9,10 @@ $yellow: #FFFD46;
     font-display: swap;
 }
 
+.lemonland {
+    background-color: #d84540;
+}
+
 body {
     background-color: $blue;
     color: $yellow !important;
@@ -70,12 +74,12 @@ a {
 .button {
     max-width: 100%;
     background-color: $yellow;
-    color: $blue;
+    color: #d84540;
     padding: 15px;
     font-size: 50px;
     line-height: 30px;
     padding-top: 15px;
-    // font-weight: 600;
+    font-weight: 600;
     letter-spacing: 2px;
 }
 

@@ -263,8 +263,99 @@
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
+        const fanfareWords = [
+          "ZEST PORTAL",
+          "BISON PERMISSION GRANTED",
+          "PIPS EVERYWHERE",
+          "FLAT FIELD ACTIVATED",
+        ];
+
+        const launchEnterFanfare = () => {
+          if (reduceMotion.matches || !enterButton) return;
+
+          const rect = enterButton.getBoundingClientRect();
+          const originX = rect.left + rect.width / 2;
+          const originY = rect.top + rect.height / 2;
+          const fanfare = document.createElement("div");
+
+          fanfare.className = "enter-fanfare";
+          fanfare.setAttribute("aria-hidden", "true");
+          fanfare.style.setProperty("--origin-x", `${originX}px`);
+          fanfare.style.setProperty("--origin-y", `${originY}px`);
+
+          const ring = document.createElement("span");
+          ring.className = "enter-fanfare__ring";
+          fanfare.append(ring);
+
+          const banner = document.createElement("span");
+          banner.className = "enter-fanfare__banner";
+          banner.textContent =
+            fanfareWords[Math.floor(Math.random() * fanfareWords.length)];
+          fanfare.append(banner);
+
+          const lemonCount = 22;
+
+          for (let index = 0; index < lemonCount; index += 1) {
+            const lemon = document.createElement("span");
+            const angle = (Math.PI * 2 * index) / lemonCount - Math.PI / 2;
+            const distance = 90 + Math.random() * 210;
+
+            lemon.className = "enter-fanfare__lemon";
+            lemon.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+            lemon.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+            lemon.style.setProperty(
+              "--spin",
+              `${(Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 720)}deg`,
+            );
+            lemon.style.setProperty("--delay", `${Math.random() * 0.22}s`);
+            lemon.style.setProperty("--scale", `${0.45 + Math.random() * 0.9}`);
+            fanfare.append(lemon);
+          }
+
+          for (let index = 0; index < 4; index += 1) {
+            const bison = document.createElement("span");
+            const dir = index % 2 === 0 ? 1 : -1;
+
+            bison.className = "enter-fanfare__bison";
+            bison.style.setProperty("--top", `${18 + Math.random() * 64}vh`);
+            bison.style.setProperty("--delay", `${index * 0.08}s`);
+            bison.style.setProperty("--flip", String(dir));
+            bison.style.setProperty("--start-x", `${dir * -62}vw`);
+            bison.style.setProperty("--end-x", `${dir * 118}vw`);
+            bison.style.setProperty("--start-rotate", `${dir * -8}deg`);
+            bison.style.setProperty("--end-rotate", `${dir * 18}deg`);
+            fanfare.append(bison);
+          }
+
+          ["HONK", "ZING", "WOBBLE", "SAUNA?", "LIME-UP"].forEach(
+            (word, index) => {
+              const glyph = document.createElement("span");
+              glyph.className = "enter-fanfare__glyph";
+              glyph.textContent = word;
+              glyph.style.setProperty("--left", `${8 + Math.random() * 84}vw`);
+              glyph.style.setProperty("--top", `${8 + Math.random() * 78}vh`);
+              glyph.style.setProperty("--delay", `${0.08 * index}s`);
+              const tilt = Math.random() * 34 - 17;
+              glyph.style.setProperty(
+                "--tilt",
+                `${tilt}deg`,
+              );
+              glyph.style.setProperty("--tilt-back", `${tilt * -1}deg`);
+              fanfare.append(glyph);
+            },
+          );
+
+          document.body.append(fanfare);
+          document.body.classList.add("is-fanfaring");
+          window.setTimeout(() => {
+            fanfare.remove();
+            document.body.classList.remove("is-fanfaring");
+          }, 2300);
+        };
 
         const openSite = () => {
+          launchEnterFanfare();
+
           window.scrollTo({
             top: 0,
             left: 0,

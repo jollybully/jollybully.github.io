@@ -262,8 +262,8 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     &:not(.is-entered) {
 
         .flyer,
-        .content > *,
-        section > a {
+        .content>*,
+        section>a {
             opacity: 0;
         }
     }
@@ -272,8 +272,8 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     &.is-entered {
 
         .flyer,
-        .content > *,
-        section > a {
+        .content>*,
+        section>a {
             -webkit-animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both;
             animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both;
         }
@@ -285,19 +285,19 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both, flyerBob 5s ease-in-out infinite;
         }
 
-        .content > h1 {
+        .content>h1 {
             -webkit-animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both, lemonWobble 4s steps(3, end) infinite;
             animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both, lemonWobble 4s steps(3, end) infinite;
         }
 
-        .content > .emoji {
+        .content>.emoji {
             -webkit-animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both, lemonSpin 2.6s steps(8, end) infinite;
             animation: revealRise .7s cubic-bezier(.2, .7, .2, 1) .22s both, lemonSpin 2.6s steps(8, end) infinite;
         }
 
         // Stagger the cascade across the visible content.
         @for $i from 1 through 16 {
-            .content > *:nth-child(#{$i}) {
+            .content>*:nth-child(#{$i}) {
                 -webkit-animation-delay: 0.22s + ($i - 1) * 0.05s;
                 animation-delay: 0.22s + ($i - 1) * 0.05s;
             }
@@ -448,6 +448,105 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     animation: lemonPop .8s cubic-bezier(.18, .8, .28, 1) forwards;
 }
 
+.enter-fanfare {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    contain: layout paint style;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-animation: fanfareVanish 2.3s linear forwards;
+    animation: fanfareVanish 2.3s linear forwards;
+}
+
+.enter-fanfare__ring,
+.enter-fanfare__banner,
+.enter-fanfare__lemon,
+.enter-fanfare__bison,
+.enter-fanfare__glyph {
+    position: absolute;
+    left: var(--origin-x);
+    top: var(--origin-y);
+    display: block;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+.enter-fanfare__ring {
+    width: 28px;
+    aspect-ratio: 1;
+    border: 7px dotted $yellow;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 9px #3d9ee8,
+        0 0 0 18px $blue;
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-animation: fanfareRing 1.08s cubic-bezier(.14, .92, .38, 1) forwards;
+    animation: fanfareRing 1.08s cubic-bezier(.14, .92, .38, 1) forwards;
+}
+
+.enter-fanfare__banner {
+    left: 50%;
+    top: 50%;
+    max-width: min(760px, calc(100vw - 30px));
+    padding: 15px 20px 10px;
+    color: $yellow;
+    background: #3d9ee8;
+    border: 4px solid $blue;
+    box-shadow: 9px 9px 0 $blue;
+    font-size: clamp(36px, 9vw, 96px);
+    line-height: .86;
+    letter-spacing: 3px;
+    text-align: center;
+    text-shadow: 4px 4px 0 $blue;
+    white-space: normal;
+    transform: translate3d(-50%, -50%, 0) rotate(-6deg) scale(.1);
+    -webkit-animation: fanfareBanner 1.35s cubic-bezier(.16, .88, .26, 1) forwards;
+    animation: fanfareBanner 1.35s cubic-bezier(.16, .88, .26, 1) forwards;
+}
+
+.enter-fanfare__lemon {
+    width: clamp(30px, 8vw, 84px);
+    aspect-ratio: 296 / 222;
+    background: url("../media/lemon.png") center / contain no-repeat;
+    -webkit-filter: drop-shadow(3px 3px 0 $blue);
+    filter: drop-shadow(3px 3px 0 $blue);
+    transform: translate3d(-50%, -50%, 0) scale(.15) rotate(0deg);
+    -webkit-animation: fanfareLemon 1.45s cubic-bezier(.16, .84, .28, 1) var(--delay, 0s) forwards;
+    animation: fanfareLemon 1.45s cubic-bezier(.16, .84, .28, 1) var(--delay, 0s) forwards;
+}
+
+.enter-fanfare__bison {
+    left: 50%;
+    top: var(--top);
+    width: clamp(62px, 14vw, 140px);
+    aspect-ratio: 267 / 244;
+    background: url("../media/bison.png") center / contain no-repeat;
+    -webkit-filter: drop-shadow(5px 5px 0 $blue);
+    filter: drop-shadow(5px 5px 0 $blue);
+    opacity: 0;
+    transform: translate3d(calc(-50% + var(--start-x)), -50%, 0) scaleX(var(--flip)) rotate(var(--start-rotate));
+    -webkit-animation: fanfareBison .95s cubic-bezier(.14, .72, .28, 1) var(--delay, 0s) forwards;
+    animation: fanfareBison .95s cubic-bezier(.14, .72, .28, 1) var(--delay, 0s) forwards;
+}
+
+.enter-fanfare__glyph {
+    left: var(--left);
+    top: var(--top);
+    color: $blue;
+    background: $yellow;
+    border: 3px solid $blue;
+    box-shadow: 5px 5px 0 #3d9ee8;
+    padding: 7px 10px 3px;
+    font-size: clamp(18px, 4vw, 38px);
+    line-height: .9;
+    letter-spacing: 2px;
+    transform: translate3d(-50%, -50%, 0) rotate(var(--tilt)) scale(0);
+    -webkit-animation: fanfareGlyph .9s cubic-bezier(.18, .9, .25, 1) var(--delay, 0s) forwards;
+    animation: fanfareGlyph .9s cubic-bezier(.18, .9, .25, 1) var(--delay, 0s) forwards;
+}
+
 @-webkit-keyframes lemonPop {
     0% {
         opacity: 0;
@@ -477,6 +576,206 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     100% {
         opacity: 0;
         transform: translate(calc(-50% + var(--pop-dx)), calc(-50% + var(--pop-dy))) scale(var(--pop-scale, 1)) rotate(var(--pop-rotate));
+    }
+}
+
+@-webkit-keyframes fanfareVanish {
+
+    0%,
+    78% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fanfareVanish {
+
+    0%,
+    78% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fanfareRing {
+    0% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.2) rotate(0deg);
+    }
+
+    70% {
+        opacity: .85;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(16) rotate(110deg);
+    }
+}
+
+@keyframes fanfareRing {
+    0% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.2) rotate(0deg);
+    }
+
+    70% {
+        opacity: .85;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(16) rotate(110deg);
+    }
+}
+
+@-webkit-keyframes fanfareBanner {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(-14deg) scale(.1);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(7deg) scale(1.12);
+    }
+
+    58% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(-3deg) scale(.98) skewX(-5deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -78vh, 0) rotate(12deg) scale(.76);
+    }
+}
+
+@keyframes fanfareBanner {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(-14deg) scale(.1);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(7deg) scale(1.12);
+    }
+
+    58% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(-3deg) scale(.98) skewX(-5deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -78vh, 0) rotate(12deg) scale(.76);
+    }
+}
+
+@-webkit-keyframes fanfareLemon {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(.15) rotate(0deg);
+    }
+
+    16% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--dx)), calc(-50% + var(--dy)), 0) scale(var(--scale)) rotate(var(--spin));
+    }
+}
+
+@keyframes fanfareLemon {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(.15) rotate(0deg);
+    }
+
+    16% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--dx)), calc(-50% + var(--dy)), 0) scale(var(--scale)) rotate(var(--spin));
+    }
+}
+
+@-webkit-keyframes fanfareBison {
+    0% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--start-x)), -50%, 0) scaleX(var(--flip)) rotate(var(--start-rotate));
+    }
+
+    18% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--end-x)), -50%, 0) scaleX(var(--flip)) rotate(var(--end-rotate));
+    }
+}
+
+@keyframes fanfareBison {
+    0% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--start-x)), -50%, 0) scaleX(var(--flip)) rotate(var(--start-rotate));
+    }
+
+    18% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--end-x)), -50%, 0) scaleX(var(--flip)) rotate(var(--end-rotate));
+    }
+}
+
+@-webkit-keyframes fanfareGlyph {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt)) scale(0);
+    }
+
+    20%,
+    72% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt-back)) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt)) scale(.2);
+    }
+}
+
+@keyframes fanfareGlyph {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt)) scale(0);
+    }
+
+    20%,
+    72% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt-back)) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) rotate(var(--tilt)) scale(.2);
     }
 }
 
@@ -627,13 +926,11 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 @-webkit-keyframes revealRise {
     from {
         opacity: 0;
-        -webkit-transform: translate3d(0, 26px, 0);
         transform: translate3d(0, 26px, 0);
     }
 
     to {
         opacity: 1;
-        -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
     }
 }
@@ -654,7 +951,9 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 
     .lemonland26,
     .lemonland26 *,
-    .lemon-effects span {
+    .lemon-effects span,
+    .enter-fanfare,
+    .enter-fanfare * {
         -webkit-animation: none !important;
         animation: none !important;
         transition: none !important;

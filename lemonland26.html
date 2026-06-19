@@ -387,6 +387,22 @@
             },
           );
 
+          const leddles = document.createElement("span");
+          leddles.className = "enter-fanfare__leddles";
+          leddles.style.setProperty(
+            "--start-x",
+            `${Math.random() < 0.5 ? -72 : 72}vw`,
+          );
+          leddles.style.setProperty(
+            "--end-x",
+            `${Math.random() < 0.5 ? -120 : 120}vw`,
+          );
+          leddles.style.setProperty("--top", `${20 + Math.random() * 46}vh`);
+          const leddlesTilt = Math.random() * 18 - 9;
+          leddles.style.setProperty("--tilt", `${leddlesTilt}deg`);
+          leddles.style.setProperty("--tilt-back", `${leddlesTilt * -1}deg`);
+          fanfare.append(leddles);
+
           document.body.append(fanfare);
           document.body.classList.add("is-fanfaring");
           window.setTimeout(() => {

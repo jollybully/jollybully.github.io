@@ -51,8 +51,9 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             linear-gradient(115deg, transparent 0 46%, rgba(255, 253, 70, .16) 47% 49%, transparent 50%),
             linear-gradient(235deg, transparent 0 62%, rgba(49, 40, 67, .12) 63% 65%, transparent 66%);
         background-size: 180px 140px, 220px 190px;
-        -webkit-animation: oddDrift 18s steps(6, end) infinite;
-        animation: oddDrift 18s steps(6, end) infinite;
+        // 118 BPM: 24 beats (6 bars), one herringbone step per bar
+        -webkit-animation: oddDrift calc(24 * 60s / 118) steps(6, end) infinite;
+        animation: oddDrift calc(24 * 60s / 118) steps(6, end) infinite;
     }
 
     a,
@@ -102,14 +103,35 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         z-index: 2;
     }
 
+    @media (max-width: 680px) {
+        section {
+            padding-left: 20px;
+            padding-right: 20px;
+
+            .content {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    }
+
     .content {
         position: relative;
         z-index: 1;
-        text-shadow: 2px 2px 0 $blue;
+
+        p,
+        a {
+            font-weight: 600;
+            text-shadow:
+                2px 2px 0 $blue,
+                1px 0 0 $blue,
+                0 1px 0 $blue;
+        }
     }
 
     h1 {
         color: $yellow;
+        font-weight: 500;
         -webkit-text-stroke: 1px $blue;
         text-shadow: 3px 3px 0 $blue, -2px 2px 0 #ff7553;
         transform: rotate(-2deg);
@@ -241,7 +263,6 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     &.is-entered {
         overflow-x: hidden;
         height: auto;
-        padding-bottom: 58px;
 
         .enter-gate {
             pointer-events: none;
@@ -359,7 +380,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     .audio-mute {
         position: fixed;
         right: 20px;
-        bottom: 54px;
+        bottom: 20px;
         z-index: 25;
         min-width: 70px;
         margin: 0;
@@ -519,6 +540,23 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     animation: lemonPop .8s cubic-bezier(.18, .8, .28, 1) forwards;
 }
 
+.leddles-reward {
+    position: fixed;
+    left: 50%;
+    top: 52%;
+    z-index: 28;
+    display: block;
+    width: clamp(118px, 24vw, 245px);
+    aspect-ratio: 153 / 330;
+    background: url("../media/leddles.png") center / contain no-repeat;
+    pointer-events: none;
+    -webkit-filter: drop-shadow(7px 8px 0 $blue);
+    filter: drop-shadow(7px 8px 0 $blue);
+    transform: translate3d(-50%, -50%, 0) scale(.2) rotate(-8deg);
+    -webkit-animation: leddlesReward .85s cubic-bezier(.2, .92, .28, 1) forwards;
+    animation: leddlesReward .85s cubic-bezier(.2, .92, .28, 1) forwards;
+}
+
 .enter-fanfare {
     position: fixed;
     inset: 0;
@@ -662,6 +700,50 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     100% {
         opacity: 0;
         transform: translate(calc(-50% + var(--pop-dx)), calc(-50% + var(--pop-dy))) scale(var(--pop-scale, 1)) rotate(var(--pop-rotate));
+    }
+}
+
+@-webkit-keyframes leddlesReward {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -40%, 0) scale(.15) rotate(-10deg);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translate3d(-50%, -54%, 0) scale(1.06) rotate(5deg);
+    }
+
+    38% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -68%, 0) scale(.5) rotate(12deg);
+    }
+}
+
+@keyframes leddlesReward {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -40%, 0) scale(.15) rotate(-10deg);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translate3d(-50%, -54%, 0) scale(1.06) rotate(5deg);
+    }
+
+    38% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -68%, 0) scale(.5) rotate(12deg);
     }
 }
 
@@ -1170,7 +1252,7 @@ body {
     background-color: $blue;
     color: $yellow !important;
     font-family: 'Open Sans', serif;
-
+    font-weight: 600;
 }
 
 section {
@@ -1196,8 +1278,9 @@ section {
 p {
     margin-bottom: 20px;
     line-height: 20px;
-    letter-spacing: .2px;
+    letter-spacing: 1px;
     font-size: 32px;
+    font-weight: 600;
     color: $yellow !important;
 }
 
@@ -1208,8 +1291,9 @@ h1 {
 a {
     text-decoration: underline;
     line-height: 20px;
-    letter-spacing: .2px;
+    letter-spacing: 1px;
     font-size: 32px;
+    font-weight: 600;
     color: $yellow !important;
 }
 

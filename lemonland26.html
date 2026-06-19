@@ -107,9 +107,9 @@
       aria-pressed="false"
       aria-label="Toggle music"
     >
-      HUSH
+      MUTE
     </button>
-    <div class="field-weather" aria-hidden="true">
+    <div class="field-weather" hidden aria-hidden="true">
       <div class="field-weather__track">
         <span>
           ANNOUNCEMENTS: gates open Friday at 4pm / the exact pin drop will be
@@ -178,12 +178,6 @@
         <br />
         <h1>LEMON LAND 2026</h1>
         <p class="emoji">🍋</p>
-
-        <p class="bold">
-          Lemon Land is BACK<br />
-          4-6th September 2026<br />
-          Norfolk · £100
-        </p>
 
         <p>Hello Lemons</p>
 
@@ -307,8 +301,6 @@
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
-        const hushLabels = ["HUSH", "SHHH", "MUTE"];
-        let muteLabelIndex = 0;
         const fanfareWords = [
           "ZEST PORTAL",
           "SCROBBLY BIBBINS",
@@ -448,12 +440,7 @@
           if (!bgMusic) return;
 
           bgMusic.muted = !bgMusic.muted;
-          if (bgMusic.muted) {
-            muteButton.textContent = "UNHUSH";
-          } else {
-            muteLabelIndex = (muteLabelIndex + 1) % hushLabels.length;
-            muteButton.textContent = hushLabels[muteLabelIndex];
-          }
+          muteButton.textContent = bgMusic.muted ? "LAMBADA" : "MUTE";
           muteButton.setAttribute("aria-pressed", String(bgMusic.muted));
         });
 
@@ -573,6 +560,43 @@
         const fallers = lemonField
           ? [...lemonField.querySelectorAll("span")]
           : [];
+        const lemonFallers = fallers.filter(
+          (faller) =>
+            !faller.classList.contains("bison") &&
+            !faller.classList.contains("leddles"),
+        );
+        let leddlesRewardArmed = true;
+
+        const launchLeddlesReward = () => {
+          if (document.querySelector(".leddles-reward")) return;
+
+          const leddles = document.createElement("span");
+          leddles.className = "leddles-reward";
+          leddles.setAttribute("aria-hidden", "true");
+          document.body.append(leddles);
+
+          leddles.addEventListener(
+            "animationend",
+            () => {
+              leddles.remove();
+              leddlesRewardArmed = true;
+            },
+            { once: true },
+          );
+        };
+
+        const maybeLaunchLeddlesReward = () => {
+          if (
+            !leddlesRewardArmed ||
+            !lemonFallers.length ||
+            !lemonFallers.every((faller) => faller.dataset.flung === "true")
+          ) {
+            return;
+          }
+
+          leddlesRewardArmed = false;
+          launchLeddlesReward();
+        };
 
         const flingFaller = (faller, originX, originY) => {
           if (faller.dataset.flung === "true") return;
@@ -652,6 +676,9 @@
               event.clientY <= rect.bottom
             ) {
               flingFaller(faller, event.clientX, event.clientY);
+              if (lemonFallers.includes(faller)) {
+                maybeLaunchLeddlesReward();
+              }
             }
           });
         };

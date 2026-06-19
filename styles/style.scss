@@ -138,6 +138,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 
     .flyer-video {
         background: $blue;
+        -o-object-fit: cover;
         object-fit: cover;
     }
 
@@ -342,7 +343,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         span {
             flex: 0 0 auto;
             padding-right: 34px;
-            font-size: clamp(17px, 3.4vw, 30px);
+            font-size: clamp(17px, 3.4vw, 20px);
             line-height: 1;
             letter-spacing: 1.5px;
             text-shadow: none;

@@ -382,6 +382,8 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     --lemon-lane: max(0px, calc(var(--lemon-gutter) - var(--lemon-size) - 42px));
     --bison-size: clamp(34px, 6.5vw, 68px);
     --bison-lane: max(0px, calc(var(--lemon-gutter) - var(--bison-size) - 34px));
+    --leddles-size: clamp(52px, 8vw, 118px);
+    --leddles-lane: max(12px, calc(var(--lemon-gutter) - var(--leddles-size) - 28px));
 
     position: fixed;
     inset: 0;
@@ -480,6 +482,23 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             animation-duration: 43s;
             -webkit-animation-delay: 24s;
             animation-delay: 24s;
+        }
+
+        &.leddles {
+            top: -34vh;
+            left: max(10px, calc(var(--leddles-lane) * .62));
+            z-index: 2;
+            width: var(--leddles-size);
+            aspect-ratio: 153 / 330;
+            background-image: url("../media/leddles.png");
+            -webkit-filter: drop-shadow(4px 5px 0 rgba(49, 40, 67, .5));
+            filter: drop-shadow(4px 5px 0 rgba(49, 40, 67, .5));
+            -webkit-animation-name: leddlesFall;
+            animation-name: leddlesFall;
+            -webkit-animation-duration: 96s;
+            animation-duration: 96s;
+            -webkit-animation-delay: 58s;
+            animation-delay: 58s;
         }
     }
 }
@@ -900,6 +919,62 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 
     100% {
         transform: translate3d(-10px, 132vh, 0) rotate(126deg) scale(var(--bison-scale-end));
+    }
+}
+
+@-webkit-keyframes leddlesFall {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(8px, -8vh, 0) rotate(-8deg) scale(.62);
+        transform: translate3d(8px, -8vh, 0) rotate(-8deg) scale(.62);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    42% {
+        opacity: 1;
+        -webkit-transform: translate3d(46px, 54vh, 0) rotate(9deg) scale(.76);
+        transform: translate3d(46px, 54vh, 0) rotate(9deg) scale(.76);
+    }
+
+    78% {
+        opacity: 1;
+        -webkit-transform: translate3d(-18px, 102vh, 0) rotate(-5deg) scale(.68);
+        transform: translate3d(-18px, 102vh, 0) rotate(-5deg) scale(.68);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translate3d(28px, 138vh, 0) rotate(12deg) scale(.58);
+        transform: translate3d(28px, 138vh, 0) rotate(12deg) scale(.58);
+    }
+}
+
+@keyframes leddlesFall {
+    0% {
+        opacity: 0;
+        transform: translate3d(8px, -8vh, 0) rotate(-8deg) scale(.62);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    42% {
+        opacity: 1;
+        transform: translate3d(46px, 54vh, 0) rotate(9deg) scale(.76);
+    }
+
+    78% {
+        opacity: 1;
+        transform: translate3d(-18px, 102vh, 0) rotate(-5deg) scale(.68);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(28px, 138vh, 0) rotate(12deg) scale(.58);
     }
 }
 

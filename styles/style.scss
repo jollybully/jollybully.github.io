@@ -126,6 +126,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     }
 
     .flyer {
+        display: block;
         border: 3px solid $blue;
         box-shadow: 10px 10px 0 rgba(49, 40, 67, .85);
         transform: translate3d(var(--flyer-x, 0), var(--flyer-y, 0), 0) rotate(calc(.8deg + var(--flyer-rotate, 0deg)));
@@ -133,6 +134,11 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         -webkit-animation: flyerBob 5s ease-in-out infinite;
         animation: flyerBob 5s ease-in-out infinite;
         will-change: transform;
+    }
+
+    .flyer-video {
+        background: $blue;
+        object-fit: cover;
     }
 
     &.is-gated {
@@ -234,6 +240,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     &.is-entered {
         overflow-x: hidden;
         height: auto;
+        padding-bottom: 58px;
 
         .enter-gate {
             pointer-events: none;
@@ -304,10 +311,54 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         }
     }
 
+    .field-weather {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 24;
+        overflow: hidden;
+        padding: 7px 0 5px;
+        color: $blue;
+        background: $yellow;
+        border-top: 3px solid $blue;
+        box-shadow: 0 -4px 0 #3d9ee8;
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+        transition:
+            opacity .3s ease,
+            transform .3s cubic-bezier(.2, .8, .2, 1);
+        pointer-events: none;
+
+        &__track {
+            display: flex;
+            width: -webkit-max-content;
+            width: -moz-max-content;
+            width: max-content;
+            -webkit-animation: fieldWeatherCrawl 150s linear infinite;
+            animation: fieldWeatherCrawl 150s linear infinite;
+        }
+
+        span {
+            flex: 0 0 auto;
+            padding-right: 34px;
+            font-size: clamp(17px, 3.4vw, 30px);
+            line-height: 1;
+            letter-spacing: 1.5px;
+            text-shadow: none;
+            white-space: nowrap;
+        }
+    }
+
+    &.is-entered .field-weather {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
     .audio-mute {
         position: fixed;
         right: 20px;
-        bottom: 20px;
+        bottom: 54px;
         z-index: 25;
         min-width: 70px;
         margin: 0;
@@ -479,8 +530,8 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     border: 7px dotted $yellow;
     border-radius: 50%;
     box-shadow:
-        0 0 0 9px #3d9ee8,
-        0 0 0 18px $blue;
+        0 0 0 9px $yellow,
+        0 0 0 18px $yellow;
     transform: translate3d(-50%, -50%, 0);
     -webkit-animation: fanfareRing 1.08s cubic-bezier(.14, .92, .38, 1) forwards;
     animation: fanfareRing 1.08s cubic-bezier(.14, .92, .38, 1) forwards;
@@ -947,6 +998,18 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     }
 }
 
+@-webkit-keyframes fieldWeatherCrawl {
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+@keyframes fieldWeatherCrawl {
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
     .lemonland26,
@@ -966,6 +1029,11 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 
     .lemonland26.is-entered .enter-gate__panel--right {
         transform: translateX(100%);
+    }
+
+    .lemonland26.is-entered .field-weather {
+        opacity: 1;
+        transform: none;
     }
 }
 

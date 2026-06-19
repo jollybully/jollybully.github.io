@@ -98,16 +98,47 @@
         </button>
       </div>
     </div>
-    <audio id="bg-music" src="media/Macarena.mp3" loop preload="auto"></audio>
+    <audio id="bg-music" src="media/audio.mp3" loop preload="auto"></audio>
     <button
       type="button"
       id="mute-button"
       class="audio-mute button"
       hidden
       aria-pressed="false"
+      aria-label="Toggle music"
     >
-      MUTE
+      HUSH
     </button>
+    <div class="field-weather" aria-hidden="true">
+      <div class="field-weather__track">
+        <span>
+          ANNOUNCEMENTS: gates open Friday at 4pm / the exact pin drop will be
+          sent nearer the time / Pot luck contributions are welcome / the sound
+          system will be switched on at midday on Saturday / no bison are
+          appearing at Lemon Land / sauna wristbands will be available on site /
+          glamping tents are priced per whole tent, not per person / car sharing
+          remains encouraged / live music on Sunday, ceremony in the evening,
+          final dance after that / questions can be sent in the usual way /
+          please keep hold of your cup, your towel, and any strong opinions
+          about reheating facilities / lime-up still in progress / Norfolk
+          remains flat / if you see a bison please ensure it has a valid
+          wristband / Lamdada continues
+        </span>
+        <span>
+          ANNOUNCEMENTS: gates open Friday at 4pm / the exact pin drop will be
+          sent nearer the time / Pot luck contributions are welcome / the sound
+          system will be switched on at midday on Saturday / no bison are
+          appearing at Lemon Land / sauna wristbands will be available on site /
+          glamping tents are priced per whole tent, not per person / car sharing
+          remains encouraged / live music on Sunday, ceremony in the evening,
+          final dance after that / questions can be sent in the usual way /
+          please keep hold of your cup, your towel, and any strong opinions
+          about reheating facilities / lime-up still in progress / Norfolk
+          remains flat / if you see a bison please ensure it has a valid
+          wristband / Lamdada continues
+        </span>
+      </div>
+    </div>
     <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
@@ -129,7 +160,19 @@
       <span class="bison bison--left"></span>
     </div>
     <section>
-      <img class="flyer" src="media/flyer26.jpg" alt="Lemon Land 2026" />
+      <video
+        class="flyer flyer-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="media/flyer26.jpg"
+        aria-label="Lemon Land 2026"
+      >
+        <source src="media/flyer.webm" type="video/webm" />
+        <source src="media/flyer.mp4" type="video/mp4" />
+        <img src="media/flyer26.jpg" alt="Lemon Land 2026" />
+      </video>
       <div class="content">
         <br />
         <h1>LEMON LAND 2026</h1>
@@ -263,11 +306,14 @@
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
+        const hushLabels = ["HUSH", "SHHH", "MUTE"];
+        let muteLabelIndex = 0;
         const fanfareWords = [
           "ZEST PORTAL",
-          "BISON PERMISSION GRANTED",
-          "PIPS EVERYWHERE",
-          "FLAT FIELD ACTIVATED",
+          "CATERING CATASTROPHE",
+          "SCROBBLY BIBBINS",
+          "BIBBINS",
+          "SCROBBLY",
         ];
 
         const launchEnterFanfare = () => {
@@ -336,10 +382,7 @@
               glyph.style.setProperty("--top", `${8 + Math.random() * 78}vh`);
               glyph.style.setProperty("--delay", `${0.08 * index}s`);
               const tilt = Math.random() * 34 - 17;
-              glyph.style.setProperty(
-                "--tilt",
-                `${tilt}deg`,
-              );
+              glyph.style.setProperty("--tilt", `${tilt}deg`);
               glyph.style.setProperty("--tilt-back", `${tilt * -1}deg`);
               fanfare.append(glyph);
             },
@@ -368,7 +411,7 @@
           document.body.classList.add("is-entered");
 
           if (bgMusic) {
-            bgMusic.volume = 0.22;
+            bgMusic.volume = 0.5;
             bgMusic.play().catch(() => {});
           }
 
@@ -390,7 +433,12 @@
           if (!bgMusic) return;
 
           bgMusic.muted = !bgMusic.muted;
-          muteButton.textContent = bgMusic.muted ? "UNMUTE" : "MUTE";
+          if (bgMusic.muted) {
+            muteButton.textContent = "UNHUSH";
+          } else {
+            muteLabelIndex = (muteLabelIndex + 1) % hushLabels.length;
+            muteButton.textContent = hushLabels[muteLabelIndex];
+          }
           muteButton.setAttribute("aria-pressed", String(bgMusic.muted));
         });
 
@@ -536,22 +584,22 @@
           faller.style.transform = base;
 
           const flingAnim = faller.animate(
-              [
-                {
-                  transform: `${base} rotate(0deg) scale(1)`,
-                  offset: 0,
-                },
-                {
-                  transform: `translate(${rect.left - dirX * 12}px, ${rect.top + 10}px) rotate(${(spin * 0.05).toFixed(1)}deg) scale(1.3, .72)`,
-                  offset: 0.14,
-                  easing: "ease-out",
-                },
-                {
-                  transform: `translate(${flingX}px, ${flingY}px) rotate(${spin}deg) scale(.4)`,
-                  opacity: 0.1,
-                  offset: 1,
-                },
-              ],
+            [
+              {
+                transform: `${base} rotate(0deg) scale(1)`,
+                offset: 0,
+              },
+              {
+                transform: `translate(${rect.left - dirX * 12}px, ${rect.top + 10}px) rotate(${(spin * 0.05).toFixed(1)}deg) scale(1.3, .72)`,
+                offset: 0.14,
+                easing: "ease-out",
+              },
+              {
+                transform: `translate(${flingX}px, ${flingY}px) rotate(${spin}deg) scale(.4)`,
+                opacity: 0.1,
+                offset: 1,
+              },
+            ],
             {
               duration: 1700,
               easing: "cubic-bezier(.22, .62, .36, 1)",

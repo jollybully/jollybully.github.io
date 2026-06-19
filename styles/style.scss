@@ -123,7 +123,7 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         a {
             font-weight: 600;
             text-shadow:
-                2px 2px 0 $blue,
+                1px 1px 0 $blue,
                 1px 0 0 $blue,
                 0 1px 0 $blue;
         }
@@ -521,6 +521,11 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             -webkit-animation-delay: 58s;
             animation-delay: 58s;
         }
+
+        &:not(.leddles) {
+            pointer-events: auto;
+            cursor: $cursor-pointer, pointer;
+        }
     }
 }
 
@@ -553,8 +558,13 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     -webkit-filter: drop-shadow(7px 8px 0 $blue);
     filter: drop-shadow(7px 8px 0 $blue);
     transform: translate3d(-50%, -50%, 0) scale(.2) rotate(-8deg);
-    -webkit-animation: leddlesReward .85s cubic-bezier(.2, .92, .28, 1) forwards;
-    animation: leddlesReward .85s cubic-bezier(.2, .92, .28, 1) forwards;
+    -webkit-animation: leddlesRewardIn .5s cubic-bezier(.2, .92, .28, 1) forwards;
+    animation: leddlesRewardIn .5s cubic-bezier(.2, .92, .28, 1) forwards;
+
+    &.is-exiting {
+        -webkit-animation: leddlesRewardOut .4s cubic-bezier(.4, 0, .2, 1) forwards;
+        animation: leddlesRewardOut .4s cubic-bezier(.4, 0, .2, 1) forwards;
+    }
 }
 
 .enter-fanfare {
@@ -703,18 +713,42 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     }
 }
 
-@-webkit-keyframes leddlesReward {
+@-webkit-keyframes leddlesRewardIn {
     0% {
         opacity: 0;
         transform: translate3d(-50%, -40%, 0) scale(.15) rotate(-10deg);
     }
 
-    10% {
+    55% {
         opacity: 1;
         transform: translate3d(-50%, -54%, 0) scale(1.06) rotate(5deg);
     }
 
-    38% {
+    100% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
+    }
+}
+
+@keyframes leddlesRewardIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -40%, 0) scale(.15) rotate(-10deg);
+    }
+
+    55% {
+        opacity: 1;
+        transform: translate3d(-50%, -54%, 0) scale(1.06) rotate(5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
+    }
+}
+
+@-webkit-keyframes leddlesRewardOut {
+    0% {
         opacity: 1;
         transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
     }
@@ -725,18 +759,8 @@ $cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     }
 }
 
-@keyframes leddlesReward {
+@keyframes leddlesRewardOut {
     0% {
-        opacity: 0;
-        transform: translate3d(-50%, -40%, 0) scale(.15) rotate(-10deg);
-    }
-
-    10% {
-        opacity: 1;
-        transform: translate3d(-50%, -54%, 0) scale(1.06) rotate(5deg);
-    }
-
-    38% {
         opacity: 1;
         transform: translate3d(-50%, -50%, 0) scale(.94) rotate(-2deg);
     }
@@ -1304,6 +1328,11 @@ a {
 .bold {
     font-weight: 800;
     letter-spacing: 1px;
+}
+
+.small {
+    font-size: 20px;
+    line-height: 1;
 }
 
 .button {

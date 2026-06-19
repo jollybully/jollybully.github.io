@@ -99,6 +99,11 @@
       </div>
     </div>
     <audio id="bg-music" src="media/audio.mp3" loop preload="auto"></audio>
+    <audio
+      id="sacrifice-music"
+      src="media/sacrifice.mp3"
+      preload="none"
+    ></audio>
     <button
       type="button"
       id="mute-button"
@@ -176,41 +181,49 @@
       </video>
       <div class="content">
         <br />
-        <h1>LEMON LAND 2026</h1>
+        <br />
+        <!-- <h1>LEMON LAND 2026</h1> -->
         <p class="emoji">🍋</p>
 
-        <p>Hello Lemons</p>
+        <p>Hello Lemons,</p>
 
         <p>
           It's with pleasure that we can finally announce the return of our
-          Zestival for 2026!
+          zestival for 2026!
         </p>
 
         <p>
           As with all previous years it will be happening at the rear-end of the
-          summer, and we'll be returning to the delightfully flat fields of
+          summer, and we'll be returning to the delightful flat fields of
           Norfolk to celebrate.
         </p>
 
         <p>
-          Featuring all things Lemon Lounge - the towering weight of the LL
-          sound system, lemon affiliated DJs & live music, and of course all of
-          the zesty activities you have come to expect. We acknowledge that the
-          food offering last year didn't meet the standards a lemon would expect
-          and we're really sorry if you got caught up in that… rest assured
-          we've been working hard to make sure everyone is extremely well fed
-          this year.
+          Featuring all things Lemon Lounge - the warm embrace of the LL sound
+          system, lemon affiliated DJs & live music, and of course the plethora
+          of zesty activities you have come to expect (and some you haven't) +
+          much improved catering!
         </p>
 
+        <p class="emoji">🧖‍♀️</p>
+
         <p>
-          We're launching tickets today and sending this flyer out to everyone
-          who has bought tickets to Lemon Land in the past, as well as our
-          closer community. We're only selling 250 tickets and we expect it to
-          sell out so grab them up while you can. It is an intimate affair so
-          please drop us a message if you'd like to come with a big group. It
-          has worked so well before in the sense that we all felt like lemons in
-          a bunch by the end of the weekend and we'd really like to do that
-          again.
+          Our partnership with Wondering Wild Spa was a big hit last year - so
+          we're continuing the relationship and will have an 8 person sauna
+          fired up and running all weekend. It's the real deal - hand built in
+          Lithuania and maintained by a team of sauna lover lemons. You'll be
+          able to get access by buying a weekend wristband when you arrive at
+          the festival.
+        </p>
+
+        <p class="emoji">⛺</p>
+
+        <p>
+          On top of that we also have nine 6 person glamping tents available to
+          rent. Each tent has 1 double bed and 4 singles with all bedding and
+          mains power. They are priced per whole tent so you can decide the
+          groups you want to stay with. We're expecting these to fly out too so
+          go get em.
         </p>
 
         <p>
@@ -218,6 +231,15 @@
           even for the weekend. That being said if the price is a barrier to
           access and you would really like to come then drop us a message and we
           will do our best to help.
+        </p>
+
+        <p>
+          We're launching tickets today and sending this flyer out to everyone
+          who has bought tickets to Lemon Land in the past, as well as our
+          closer community. We're only selling 250 tickets and we expect it to
+          sell out so grab them up while you can. As before, with the festival
+          being a small/intimate affair, please send us a message if you'd like
+          to come with a big group.
         </p>
 
         <a target="_blank" href="https://dandelion.events/e/lemon-land-2026-zz">
@@ -245,26 +267,6 @@
           before heading off on Monday morning
         </p>
 
-        <p class="emoji">🧖‍♀️</p>
-
-        <p>
-          Our partnership with Wondering Wild Spa was a big hit last year - so
-          we're continuing the relationship and will have an 8 person sauna
-          fired up and running all weekend. It's the real deal - hand built in
-          Lithuania and maintained by a team of sauna lover lemons. You'll be
-          able to get access by buying a weekend wristband when you arrive at
-          the festival.
-        </p>
-
-        <p class="emoji">⛺</p>
-
-        <p>
-          On top of that we also have nine 6 person glamping tents available to
-          rent. Each tent has 1 double bed and 4 singles. They are priced per
-          whole tent so you can decide the groups you want to stay with. We're
-          expecting these to fly out too so go get em.
-        </p>
-
         <p class="emoji">🚗</p>
 
         <p>
@@ -285,19 +287,33 @@
         <p class="bold">LEMON LOVE WE CAN'T WAIT TO SEE YOU</p>
 
         <p class="emoji">🍋</p>
+
+        <a target="_blank" href="https://dandelion.events/e/lemon-land-2026-zz">
+          <div class="button">BUY TICKETS</div>
+        </a>
+
+        <p class="small">
+          Due to the tight margins of running a small festival, we're unable to
+          offer refunds - but if you can no longer attend, we'll do our best to
+          help you resell your ticket.
+        </p>
+        <br /><br />
       </div>
-      <a target="_blank" href="https://dandelion.events/e/lemon-land-2026-zz">
-        <div class="button">BUY TICKETS</div>
-      </a>
     </section>
     <script>
       (() => {
         const enterGate = document.getElementById("enter-gate");
         const enterButton = document.getElementById("enter-button");
         const muteButton = document.getElementById("mute-button");
+        const fieldWeather = document.querySelector(".field-weather");
         const bgMusic = document.getElementById("bg-music");
+        const sacrificeMusic = document.getElementById("sacrifice-music");
         const flyer = document.querySelector(".flyer");
         const buttons = [...document.querySelectorAll(".button")];
+        let bgMusicVolumeBeforeDuck = null;
+        const bgMusicDuckVolume = 0.04;
+        const bgMusicDefaultVolume = 0.5;
+        const sacrificeVolume = 0.4;
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
@@ -403,6 +419,13 @@
           }, 2300);
         };
 
+        const syncMuteButton = () => {
+          if (!muteButton || !bgMusic) return;
+
+          muteButton.textContent = bgMusic.muted ? "LAMBADA" : "MUTE";
+          muteButton.setAttribute("aria-pressed", String(bgMusic.muted));
+        };
+
         const openSite = () => {
           launchEnterFanfare();
 
@@ -418,11 +441,15 @@
           document.body.classList.add("is-entered");
 
           if (bgMusic) {
-            bgMusic.volume = 0.5;
+            bgMusic.volume = bgMusicDefaultVolume;
             bgMusic.play().catch(() => {});
           }
 
           muteButton?.removeAttribute("hidden");
+          syncMuteButton();
+
+          fieldWeather?.removeAttribute("hidden");
+          fieldWeather?.removeAttribute("aria-hidden");
 
           window.setTimeout(
             () => {
@@ -440,8 +467,7 @@
           if (!bgMusic) return;
 
           bgMusic.muted = !bgMusic.muted;
-          muteButton.textContent = bgMusic.muted ? "LAMBADA" : "MUTE";
-          muteButton.setAttribute("aria-pressed", String(bgMusic.muted));
+          syncMuteButton();
         });
 
         if (reduceMotion.matches) return;
@@ -565,24 +591,107 @@
             !faller.classList.contains("bison") &&
             !faller.classList.contains("leddles"),
         );
+        const boingSounds = [
+          "media/boing1.mp3",
+          "media/boing2.mp3",
+          "media/boing3.mp3",
+        ];
+        let boingIndex = 0;
         let leddlesRewardArmed = true;
+        let activeLeddlesReward = null;
+        let leddlesRewardFinishing = false;
+        const leddlesExitDuration = 400;
+        const bgMusicFadeInDuration = 900;
+
+        const playBoing = () => {
+          const boing = new Audio(boingSounds[boingIndex]);
+          boingIndex = (boingIndex + 1) % boingSounds.length;
+          boing.volume = 0.1;
+          boing.play().catch(() => {});
+        };
+
+        const playMoo = () => {
+          const moo = new Audio("media/moo.mp3");
+          moo.volume = 0.3;
+          moo.play().catch(() => {});
+        };
+
+        const fadeBgMusicIn = () => {
+          if (!bgMusic || bgMusicVolumeBeforeDuck === null) return;
+
+          const targetVolume = bgMusicVolumeBeforeDuck;
+          const startVolume = bgMusic.volume;
+          bgMusicVolumeBeforeDuck = null;
+          const start = performance.now();
+
+          const step = (now) => {
+            const progress = Math.min(1, (now - start) / bgMusicFadeInDuration);
+            bgMusic.volume =
+              startVolume + (targetVolume - startVolume) * progress;
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            }
+          };
+
+          requestAnimationFrame(step);
+        };
+
+        const finishLeddlesReward = () => {
+          const leddles = activeLeddlesReward;
+          if (!leddles || leddlesRewardFinishing) return;
+
+          leddlesRewardFinishing = true;
+          fadeBgMusicIn();
+          leddles.classList.add("is-exiting");
+
+          let finished = false;
+          const complete = () => {
+            if (finished) return;
+            finished = true;
+            leddles.remove();
+            activeLeddlesReward = null;
+            leddlesRewardFinishing = false;
+            leddlesRewardArmed = true;
+          };
+
+          leddles.addEventListener("animationend", complete, { once: true });
+          window.setTimeout(complete, leddlesExitDuration + 80);
+        };
+
+        const duckBgMusic = () => {
+          if (!bgMusic || bgMusic.paused || bgMusic.muted) return;
+
+          if (bgMusicVolumeBeforeDuck === null) {
+            bgMusicVolumeBeforeDuck = bgMusic.volume;
+          }
+
+          bgMusic.volume = bgMusicDuckVolume;
+        };
+
+        const playSacrifice = () => {
+          if (!sacrificeMusic) return;
+
+          duckBgMusic();
+          sacrificeMusic.currentTime = 0;
+          sacrificeMusic.volume = sacrificeVolume;
+          sacrificeMusic.play().catch(() => {
+            finishLeddlesReward();
+          });
+        };
+
+        sacrificeMusic?.addEventListener("ended", finishLeddlesReward);
 
         const launchLeddlesReward = () => {
-          if (document.querySelector(".leddles-reward")) return;
+          if (activeLeddlesReward) return;
 
           const leddles = document.createElement("span");
           leddles.className = "leddles-reward";
           leddles.setAttribute("aria-hidden", "true");
+          activeLeddlesReward = leddles;
           document.body.append(leddles);
 
-          leddles.addEventListener(
-            "animationend",
-            () => {
-              leddles.remove();
-              leddlesRewardArmed = true;
-            },
-            { once: true },
-          );
+          playSacrifice();
         };
 
         const maybeLaunchLeddlesReward = () => {
@@ -677,7 +786,10 @@
             ) {
               flingFaller(faller, event.clientX, event.clientY);
               if (lemonFallers.includes(faller)) {
+                playBoing();
                 maybeLaunchLeddlesReward();
+              } else if (faller.classList.contains("bison")) {
+                playMoo();
               }
             }
           });
